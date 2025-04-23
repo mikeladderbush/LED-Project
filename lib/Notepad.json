@@ -1,0 +1,271 @@
+{
+    "meta": {
+      "request": "https://nba-prod-us-east-1-mediaops-stats.s3.amazonaws.com/NBA/liveData/scoreboard/todaysScoreboard_00.json",
+      "time": "2025-04-23 04:23:36.2336",
+      "code": 200,
+      "version": 1
+    },
+    "scoreboard": {
+      "gameDate": "2025-04-23",
+      "leagueName": "National Basketball Association",
+      "games": [
+        {
+          "seriesConference": "East",
+          "regulationPeriods": 4,
+          "gameSubtype": "",
+          "gameClock": "",
+          "seriesGameNumber": "Game 2",
+          "gameTimeUTC": "2025-04-23T23:00:00Z",
+          "gameId": "0042400112",
+          "isNeutral": false,
+          "gameSubLabel": "Game 2",
+          "pbOdds": {
+            "team": null,
+            "odds": 0.0,
+            "suspended": 0
+          },
+          "gameStatusText": "7:00 pm ET",
+          "gameLabel": "East First Round",
+          "seriesText": "BOS leads 1-0",
+          "gameCode": "20250423/ORLBOS",
+          "awayTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 7,
+            "inBonus": null,
+            "teamName": "Magic",
+            "teamId": 1610612753,
+            "losses": 1,
+            "teamCity": "Orlando",
+            "teamTricode": "ORL",
+            "score": 0,
+            "wins": 0,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameStatus": 1,
+          "gameEt": "2025-04-23T19:00:00Z",
+          "poRoundDesc": "1st Round",
+          "homeTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 2,
+            "inBonus": null,
+            "teamName": "Celtics",
+            "teamId": 1610612738,
+            "losses": 0,
+            "teamCity": "Boston",
+            "teamTricode": "BOS",
+            "score": 0,
+            "wins": 1,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameLeaders": {
+            "homeLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "BOS",
+              "position": ""
+            },
+            "awayLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "ORL",
+              "position": ""
+            }
+          },
+          "ifNecessary": false,
+          "period": 0
+        },
+        {
+          "seriesConference": "East",
+          "regulationPeriods": 4,
+          "gameSubtype": "",
+          "gameClock": "",
+          "seriesGameNumber": "Game 2",
+          "gameTimeUTC": "2025-04-23T23:30:00Z",
+          "gameId": "0042400102",
+          "isNeutral": false,
+          "gameSubLabel": "Game 2",
+          "pbOdds": {
+            "team": null,
+            "odds": 0.0,
+            "suspended": 0
+          },
+          "gameStatusText": "7:30 pm ET",
+          "gameLabel": "East First Round",
+          "seriesText": "CLE leads 1-0",
+          "gameCode": "20250423/MIACLE",
+          "awayTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 8,
+            "inBonus": null,
+            "teamName": "Heat",
+            "teamId": 1610612748,
+            "losses": 1,
+            "teamCity": "Miami",
+            "teamTricode": "MIA",
+            "score": 0,
+            "wins": 0,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameStatus": 1,
+          "gameEt": "2025-04-23T19:30:00Z",
+          "poRoundDesc": "1st Round",
+          "homeTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 1,
+            "inBonus": null,
+            "teamName": "Cavaliers",
+            "teamId": 1610612739,
+            "losses": 0,
+            "teamCity": "Cleveland",
+            "teamTricode": "CLE",
+            "score": 0,
+            "wins": 1,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameLeaders": {
+            "homeLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "CLE",
+              "position": ""
+            },
+            "awayLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "MIA",
+              "position": ""
+            }
+          },
+          "ifNecessary": false,
+          "period": 0
+        },
+        {
+          "seriesConference": "West",
+          "regulationPeriods": 4,
+          "gameSubtype": "",
+          "gameClock": "",
+          "seriesGameNumber": "Game 2",
+          "gameTimeUTC": "2025-04-24T01:30:00Z",
+          "gameId": "0042400152",
+          "isNeutral": false,
+          "gameSubLabel": "Game 2",
+          "pbOdds": {
+            "team": null,
+            "odds": 0.0,
+            "suspended": 0
+          },
+          "gameStatusText": "9:30 pm ET",
+          "gameLabel": "West First Round",
+          "seriesText": "GSW leads 1-0",
+          "gameCode": "20250423/GSWHOU",
+          "awayTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 7,
+            "inBonus": null,
+            "teamName": "Warriors",
+            "teamId": 1610612744,
+            "losses": 0,
+            "teamCity": "Golden State",
+            "teamTricode": "GSW",
+            "score": 0,
+            "wins": 1,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameStatus": 1,
+          "gameEt": "2025-04-23T21:30:00Z",
+          "poRoundDesc": "1st Round",
+          "homeTeam": {
+            "timeoutsRemaining": 0,
+            "seed": 2,
+            "inBonus": null,
+            "teamName": "Rockets",
+            "teamId": 1610612745,
+            "losses": 1,
+            "teamCity": "Houston",
+            "teamTricode": "HOU",
+            "score": 0,
+            "wins": 0,
+            "periods": [
+              { "period": 1, "periodType": "REGULAR", "score": 0 },
+              { "period": 2, "periodType": "REGULAR", "score": 0 },
+              { "period": 3, "periodType": "REGULAR", "score": 0 },
+              { "period": 4, "periodType": "REGULAR", "score": 0 }
+            ]
+          },
+          "gameLeaders": {
+            "homeLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "HOU",
+              "position": ""
+            },
+            "awayLeaders": {
+              "playerSlug": null,
+              "rebounds": 0,
+              "name": "",
+              "personId": 0,
+              "points": 0,
+              "assists": 0,
+              "jerseyNum": "",
+              "teamTricode": "GSW",
+              "position": ""
+            }
+          },
+          "ifNecessary": false,
+          "period": 0
+        }
+      ],
+      "leagueId": "00"
+    }
+  }
+  

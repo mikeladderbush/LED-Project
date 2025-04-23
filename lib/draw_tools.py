@@ -11,6 +11,7 @@ import board
 import time
 from logo_bitmaps import *
 from logos import *
+import re
 
 class nba_team:
     def __init__(self, bitmap, palette, pattern):
@@ -51,6 +52,45 @@ trail_blazers = nba_team(trail_blazers_logo_bitmap, trail_blazers_logo_palette, 
 kings = nba_team(kings_logo_bitmap, kings_logo_palette, kings_pattern)
 spurs = nba_team(spurs_logo_bitmap, spurs_logo_palette, spurs_pattern)
 jazz = nba_team(jazz_logo_bitmap, jazz_logo_palette, jazz_pattern)
+
+# Helper to assign team with just a name.
+def team_from_string(team_name) -> nba_team:
+    teams = {
+        "hawks": hawks,
+        "celtics": celtics,
+        "nets": nets,
+        "hornets": hornets,
+        "bulls": bulls,
+        "cavaliers": cavs,
+        "mavericks": mavericks,
+        "nuggets": nuggets,
+        "pistons": pistons,
+        "warriors": warriors,
+        "rockets": rockets,
+        "pacers": pacers,
+        "lakers": lakers,
+        "clippers": clippers,
+        "grizzlies": grizzlies,
+        "heat": heat,
+        "bucks": bucks,
+        "timberwolves": timberwolves,
+        "pelicans": pelicans,
+        "knicks": knicks,
+        "thunder": thunder,
+        "magic": magic,
+        "sixers": sixers,
+        "suns": suns,
+        "blazers": trail_blazers,
+        "kings": kings,
+        "spurs": spurs,
+        "raptors": raptors,
+        "jazz": jazz,
+        "wizards": wizards
+    }
+
+    opponent_team = teams.get(team_name)
+
+    return opponent_team
 
 # Draws a pixel on the given bitmap at the specified (x, y) coordinate using the provided color.
 def draw_pixel(bitmap, x, y, my_color):
@@ -119,12 +159,14 @@ def draw_sprite(bitmap, x, y, width, height, size, pattern, palette):
 
 # Draws a cube on the given bitmap by creating a pattern filled with ones and then calling draw_sprite.
 def draw_cube(bitmap, x, y, width, height, size, palette):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     cube_pattern = [1] * (width * height)
     draw_sprite(bitmap, x, y, width, height, size, cube_pattern, palette)
 
 # Draws a triangle on the given bitmap.
 # The triangle can be rendered with two different reflections, controlled by the 'reflection' parameter.
 def draw_triangle(bitmap, x, y, width, height, size, reflection, palette):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     triangle_pattern = []
     if reflection == 0:
         for row in range(height):
@@ -147,6 +189,7 @@ def draw_triangle(bitmap, x, y, width, height, size, reflection, palette):
 
 # Draws a number on the display by mapping the digit to its corresponding drawing function.
 def draw_number(number, x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     def get_number(number):
         return {
             1: lambda: draw_one(x, y, size),
@@ -188,6 +231,7 @@ def draw_dash(x, y, size):
 
 # Draws the digit '0' on the display using a predefined pattern.
 def draw_zero(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 2,
@@ -200,6 +244,7 @@ def draw_zero(x, y, size):
 
 # Draws the digit '1' on the display using a predefined pattern.
 def draw_one(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 0, 2, 0,
         0, 2, 2, 0,
@@ -212,6 +257,7 @@ def draw_one(x, y, size):
 
 # Draws the digit '2' on the display using a predefined pattern.
 def draw_two(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 0, 0, 2,
@@ -224,6 +270,7 @@ def draw_two(x, y, size):
 
 # Draws the digit '3' on the display using a predefined pattern.
 def draw_three(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 0, 0, 2,
@@ -236,6 +283,7 @@ def draw_three(x, y, size):
 
 # Draws the digit '4' on the display using a predefined pattern.
 def draw_four(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 0, 2,
         0, 2, 0, 2,
@@ -248,6 +296,7 @@ def draw_four(x, y, size):
 
 # Draws the digit '5' on the display using a predefined pattern.
 def draw_five(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 0,
@@ -260,6 +309,7 @@ def draw_five(x, y, size):
 
 # Draws the digit '6' on the display using a predefined pattern.
 def draw_six(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 0,
@@ -272,6 +322,7 @@ def draw_six(x, y, size):
 
 # Draws the digit '7' on the display using a predefined pattern.
 def draw_seven(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 0, 0, 2,
@@ -284,6 +335,7 @@ def draw_seven(x, y, size):
 
 # Draws the digit '8' on the display using a predefined pattern.
 def draw_eight(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 2,
@@ -296,6 +348,7 @@ def draw_eight(x, y, size):
 
 # Draws the digit '9' on the display using a predefined pattern.
 def draw_nine(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 2,
@@ -308,6 +361,7 @@ def draw_nine(x, y, size):
 
 # Draws the letter 'A' on the display using a predefined pattern.
 def draw_a(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 2,
@@ -320,6 +374,7 @@ def draw_a(x, y, size):
 
 # Draws the letter 'P' on the display using a predefined pattern.
 def draw_p(x, y, size):
+    clear_area(decal_bitmap, x, y, 4 * size, 5 * size)
     pattern = (
         0, 2, 2, 2,
         0, 2, 0, 2,
@@ -333,6 +388,7 @@ def draw_p(x, y, size):
 # Draws the team logos on the display.
 # The 'home_or_away' parameter determines the logo position on the bitmap.
 def draw_logo(team, x, y, home_or_away):
+
     width = 32
     height = 32
     size = 1
@@ -345,6 +401,7 @@ def draw_logo(team, x, y, home_or_away):
 # Draws the game score on the display.
 # The score is split into hundreds, tens, and ones and drawn separately.
 def draw_score(home_score, away_score):
+    # Home team
     home_score_hundreds = (home_score // 100) % 10
     home_score_tens = (home_score // 10) % 10
     home_score_ones = home_score % 10
@@ -354,8 +411,10 @@ def draw_score(home_score, away_score):
         draw_number(home_score_tens, 12, 48, 2)
         draw_number(home_score_ones, 20, 48, 2)
     else:
-        draw_number(0, 4, 48, 2)
+        draw_number(home_score_tens, 12, 48, 2)
+        draw_number(home_score_ones, 20, 48, 2)
 
+    # Away team
     away_score_hundreds = (away_score // 100) % 10
     away_score_tens = (away_score // 10) % 10
     away_score_ones = away_score % 10
@@ -365,62 +424,68 @@ def draw_score(home_score, away_score):
         draw_number(away_score_tens, 44, 48, 2)
         draw_number(away_score_ones, 52, 48, 2)
     else:
-        draw_number(0, 36, 48, 2)
+        draw_number(away_score_tens, 44, 48, 2)
+        draw_number(away_score_ones, 52, 48, 2)
 
-# Draws the game clock on the display.
-# If the clock string contains an AM/PM indicator, it splits and processes the time accordingly.
+
+def format_clock(clock_str):
+    if not clock_str:
+        return "00:00"
+
+    match = re.match(r"PT(?:(\d+)M)?(?:(\d+)(?:\.\d+)?S)?", clock_str)
+    if match:
+        minutes = int(match.group(1) or 0)
+        seconds = int(match.group(2) or 0)
+        return f"{minutes:02d}:{seconds:02d}"
+
+    return clock_str  # Assume it's already in MM:SS or HH:MM format
+
+
 def draw_clock(clock_str):
-    if " " in clock_str:
-        time, AM_PM = clock_str.split()
-        hours, minutes = time.split(":")
-        hours = int(hours)
-        minutes = int(minutes)
+    if not isinstance(clock_str, str) or not clock_str:
+        clock_str = "12:00"  # Default fallback
+    
+    # Case 1: Format is PT-style (NBA game clock)
+    if "PT" in clock_str:
+        clock_str = format_clock(clock_str)
 
-        hours_tens = hours // 10
-        hours_ones = hours % 10
-        minutes_tens = minutes // 10
-        minutes_ones = minutes % 10
+    # Case 2: AM/PM Clock
+    if "AM" in clock_str or "PM" in clock_str:
+        try:
+            time, am_pm = clock_str.split()
+            hours, minutes = map(int, time.split(":"))
 
-        if hours_tens > 0:
-            draw_number(hours_tens, 15, 31, 2)
+            draw_number(hours // 10, 15, 31, 2) if hours >= 10 else None
+            draw_number(hours % 10, 21, 31, 2)
+            draw_colon(29, 31, 2)
+            draw_number(minutes // 10, 33, 31, 2)
+            draw_number(minutes % 10, 40, 31, 2)
             
-        draw_number(hours_ones, 21, 31, 2)
-        draw_colon(29, 31, 2)
-        draw_number(minutes_tens, 33, 31, 2)
-        draw_number(minutes_ones, 40, 31, 2)
+            if am_pm == "AM":
+                draw_a(48, 36, 1)
+            else:
+                draw_p(48, 36, 1)
+        except ValueError as e:
+            print("AM/PM time format error:", e)
 
-        if "AM" in AM_PM:
-            draw_a(48, 36, 1)
-        else:
-            draw_p(48, 36, 1)
-        
+    # Case 3: MM:SS Clock
     else:
-        if not isinstance(clock_str, str) or ":" not in clock_str:
+        try:
+            minutes, seconds = map(int, clock_str.split(":"))
+            draw_number(minutes // 10, 15, 31, 2) if minutes >= 10 else None
+            draw_number(minutes % 10, 21, 31, 2)
+            draw_colon(29, 31, 2)
+            draw_number(seconds // 10, 32, 31, 2)
+            draw_number(seconds % 10, 40, 31, 2)
+        except ValueError as e:
+            print("MM:SS time format error:", e)
+            # Draw fallback clock
             draw_number(1, 18, 30, 2)
             draw_number(2, 24, 30, 2)
             draw_colon(31, 30, 2)
             draw_number(0, 34, 30, 2)
             draw_number(0, 42, 30, 2)
 
-        try:
-            minutes_str, seconds_str = clock_str.split(":")
-            minutes = int(minutes_str)
-            seconds = int(seconds_str)
-        except ValueError as e:
-            print("Value Error", e)
-
-        minute_tens = minutes // 10
-        minute_ones = minutes % 10
-        second_tens = seconds // 10
-        second_ones = seconds % 10
-
-        if minute_tens > 0:
-            draw_number(minute_tens, 15, 31, 2)
-        
-        draw_number(minute_ones, 21, 31, 2)
-        draw_colon(29, 31, 2)
-        draw_number(second_tens, 33, 31, 2)
-        draw_number(second_ones, 40, 31, 2)
 
 # Draws the game date on the display.
 # The game date is converted into individual digits and separated by dashes.
@@ -441,7 +506,7 @@ def draw_date(game_date):
     game_month_tens = game_month // 10
     game_month_ones = game_month % 10
     game_day_tens = game_day // 10
-    game_day_ones = game_day % 10
+    game_day_ones = (game_day % 10)
     game_year_tens = game_year // 10
     game_year_ones = game_year % 10
 
@@ -498,3 +563,9 @@ def draw_future_game(game_date, game_time, game_location, game_opponent):
     draw_logo(opponent_team, 0, 0, 1)
     draw_clock(game_time)
     draw_date(game_date)
+
+def clear_area(bitmap, x, y, width, height):
+    for i in range(x, x + width):
+        for j in range(y, y + height):
+            bitmap[i, j] = 0
+
