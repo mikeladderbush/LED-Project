@@ -32,104 +32,132 @@ def fetch_celtics_game():
         # Retrieve the list of games from the JSON response.
         games = data.get("scoreboard", {}).get("games", [])
         for game in games:
+            game_id = game["gameId"]
             home_team = game["homeTeam"]["teamName"]
             away_team = game["awayTeam"]["teamName"]
 
             # Check if either team is the Celtics.
-            if home_team == "Celtics" or away_team == "Celtics":
-                home_score = game["homeTeam"]["score"]
-                away_score = game["awayTeam"]["score"]
-                clock = game["gameClock"]
-                return home_score, away_score, clock
+            if home_team == "Celtics":
+                home_score, away_score, clock = get_scoreboard(game_id)
+                return home_score, away_score, away_team, clock
+
+            if away_team == "Celtics":
+                home_score, away_score, clock = get_scoreboard(game_id)
+                return home_score, away_score, home_team, clock
 
         # Return default values if no Celtics game is found.
-        return -1, -1, "00:00"
+        return -1, -1, "unknown", "00:00"
 
     except Exception as e:
         print("Failed to fetch NBA games:", e)
-        return 0, 0, "12:00"
+        return 0, 0, "unknown", "12:00"
 
 def get_current_date():
     TIMEZONE = "America/New_York"
     URL = f"http://worldtimeapi.org/api/timezone/{TIMEZONE}"
 
     response = requests.get(URL)
+    print(response)
     time_data = response.json()
+    print(time_data)
     response.close()
 
-    # Extract the date portion ("YYYY-MM-DD") from the ISO datetime string.
-    datetime_str = time_data["datetime"]
-    date_part = datetime_str.split("T")[0]
-    year, month, day = date_part.split("-")
-    
-    month = int(month)
-    day = int(day)
-    # Convert the date into the NBA schedule format.
-    current_date = (month * 31) - 3
-    current_date = current_date + day
-    
-    return current_date
+    #TODO: Update the json parsing
 
-def get_current_time():
-    TIMEZONE = "America/New_York"
-    URL = f"http://worldtimeapi.org/api/timezone/{TIMEZONE}"
-    
-    response = requests.get(URL)
-    time_data = response.json()
-    response.close()
-    
-    # Extract the ISO datetime string from the API response.
-    datetime_str = time_data["datetime"]
-    
-    # Convert the ISO datetime string to a datetime object.
-    dt = datetime.fromisoformat(datetime_str)
-    
-    # Format the time as "HH:MM AM/PM" and remove any leading zero from the hour.
-    formatted_time = dt.strftime("%I:%M %p").lstrip("0")
-    
-    return formatted_time
+    iso = time_data["datetime"].split("T")[0]
+    y,m,d = iso.split("-")
+    return int(y), int(m), int(d)
 
+def add_one_day(year, month, day):
+
+    days_in_month = [31, 29 if (year%4==0 and (year%100!=0 or year%400==0)) else 28,
+           31,30,31,30,31,31,30,31,30,31]
+    day += 1
+
+    if day > days_in_month[month-1]:
+            day = 1
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+
+    return year, month, day
+
+
+#TODO: on off-day update to include new API
 def get_next_game():
-    # Determine today's game based on the NBA schedule format.
-    game_today = False
-    current_date = get_current_date()
+    team_name = "Celtics"
+    year, month, day = get_current_date()
+    if year is None:
+        print("Couldnt get date")
+        return
 
-    while game_today == False:
-        nba_schedule = {
-            100: {"time": "8:30 PM", "location": "home (vs)", "opponent": "Los Angeles"},
-            100: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Utah"},
-            102: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Oklahoma City"},
-            104: {"time": "7:00 PM", "location": "away (@)", "opponent": "Miami"},
-            105: {"time": "6:00 PM", "location": "away (@)", "opponent": "Brooklyn"},
-            108: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Brooklyn"},
-            111: {"time": "9:30 PM", "location": "away (@)", "opponent": "Utah"},
-            113: {"time": "6:00 PM", "location": "away (@)", "opponent": "Portland"},
-            114: {"time": "10:00 PM", "location": "away (@)", "opponent": "Sacramento"},
-            116: {"time": "10:00 PM", "location": "away (@)", "opponent": "Phoenix"},
-            120: {"time": "8:00 PM", "location": "away (@)", "opponent": "San Antonio"},
-            122: {"time": "7:30 PM", "location": "away (@)", "opponent": "Memphis"},
-            124: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Miami"},
-            126: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Phoenix"},
-            128: {"time": "6:00 PM", "location": "home (vs)", "opponent": "Washington"},
-            130: {"time": "7:30 PM", "location": "away (@)", "opponent": "New York"},
-            131: {"time": "7:00 PM", "location": "away (@)", "opponent": "Orlando"},
-            133: {"time": "7:30 PM", "location": "home (vs)", "opponent": "Charlotte"},
-            135: {"time": "1:00 PM", "location": "home (vs)", "opponent": "Charlotte"}
-        }
+    for _ in range(60):
+        ymd = f"{year:04d}{month:02d}{day:02d}"
+        url = f"https://data.nba.net/data/10s/prod/v1/{ymd}/scoreboard.json"
 
         try:
-            game_info = nba_schedule.get(current_date)
-            if game_info is None:
-                # Increment the current date if no game is found for this date.
-                current_date = current_date + 1
-            else:
-                print("Found next game")
-                print(game_info)
-                game_date = current_date
-                game_time = game_info.get("time", "unknown time")
-                game_location = game_info.get("location", "unknown location")
-                game_opponent = game_info.get("opponent", "unknown opponent")
-                draw_future_game(game_date, game_time, game_location, game_opponent)
-                game_today = True
-        except:
-            break
+            response = requests.get(url, timeout = 5)
+            json = response.json() if getattr(response, "status_code", None) == 200 else{}
+        except Exception as e:
+            print(f"Network error on {ymd}:", e)
+            json = {}
+        finally:
+            response.close()
+
+        games = json.get("scoreboard", {}).get("games", json.get("games", []))
+
+        for game in games:
+            if(game["homeTeam"]["teamName"] == team_name or
+               game["awayTeam"]["teamName"] == team_name):
+                if g["homeTeam"]["teamName"] == team_name:
+                    loc = "home (vs)"
+                    opp = f"{game['awayTeam']['teamCity']} {game['awayTeam']['teamName']}"
+                else:
+                    loc = "away (@)"
+                    opp = f"{game['homeTeam']['teamCity']} {game['homeTeam']['teamName']}"
+                
+                tip = game.get("gameStatusText") or game.get("gameEt") or "TBD"
+                date_str = f"{year}-{month:02d}-{day:02d}"
+
+                draw_future_game(date_str, tip, loc, opp)
+                return
+            
+        year, month, day = add_one_day(year, month, day)
+        print("No game found in next 60 days")
+
+def accept_IOS_input(str: http_request):
+    return http_request
+
+
+def get_scoreboard(game_id):
+
+    NBA_SCOREBOARD_URL = f"https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
+
+    response = requests.get(NBA_SCOREBOARD_URL)
+    data = response.json()
+    response.close()
+
+    games = data.get("scoreboard", {}).get("games", [])
+    for game in games:
+        game_id = game["gameId"]
+        game_clock = game["gameClock"]
+        home_team_struct = game["homeTeam"]
+        home_team_name = home_team_struct["teamName"]
+        away_team_struct = game["awayTeam"]
+        away_team_name = away_team_struct["teamName"]
+
+        if home_team_name == "Celtics":
+            home_score = home_team_struct["score"]
+            away_score = away_team_struct["score"]
+
+        if away_team_name == "Celtics":
+            away_score = home_team_struct["score"]
+            home_score = away_team_struct["score"]
+
+        if home_score is not None and away_score is not None and game_clock:
+            return int(home_score), int(away_score), game_clock
+
+    return 0, 0, "0:00"
+
+
